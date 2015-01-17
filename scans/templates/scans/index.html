@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<script type="text/javascript">
+var scanlistpage=1;
+function refresh(){
+	$.ajax({
+	  url: '{% url 'a_scan_list'%}?page='+scanlistpage,
+	  success: function(data) {
+	  $('#scanlist').html(data);
+	  }});
+	setTimeout(refresh, 20000);
+};refresh();
+</script>
+<div class="row">
+  <div class="col-md-12" id="scanlist">{% include "scans/scan_list.html" %}</div>
+</div>
+{% endblock %}

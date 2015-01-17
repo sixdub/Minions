@@ -1,0 +1,21 @@
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+{% block content %}
+<div id="content">
+<center>
+<p class="lead">Admin Login</p>
+<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+{%if form.errors%}Error!<br>{%endif%}
+    Username: {{ form.username }}
+    <br>
+    Password: {{ form.password }}
+    <input type="hidden" name="next" value="{{ next }}" /><br>
+  <input type="submit" value="Log in" />
+</form>
+</center>
+<script type="text/javascript">
+document.getElementById('id_username').focus()
+</script>
+</div>
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% if search %}
+<div class="row">
+ <div class="col-md-12" id="scanlist">
+<h1>Search Results:</h1>
+<table id="scantable" class="table table-bordered table-hover">
+<thead class="data-header">
+<tr><th>Scan ID</th><th>Scan Name</th><th>User</th><th>Hosts</th><th>Profile</th><th>Results</th</tr></thead>
+    {% for scan in search %}
+       <tbody>
+       <tr row-id="{{scan.id}}"><td><a href="{% url 'scan_detail' scan.id%}">{{ scan.id }}</a></td>
+       <td>{{scan.name}}</td>
+       <td>{{scan.user.username}}</td>
+       <td>{{scan.hosts}}</td>
+       <td>{{scan.profile}}</td>
+       <td>{{scan.finished}}</td></tr>
+       </tbody>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No scans are available.</p>
+{% endif %}
+<script type="text/javascript">
+$('.table-hover tbody tr').click(function(){rowid=$(this).attr("row-id");var url= '{%url 'scan_detail' 1%}';url=url.replace('1', rowid); document.location.href=url;});</script>
+</div>
+</div>
+{% endblock %}

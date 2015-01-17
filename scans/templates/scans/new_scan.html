@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h1>Create Scan</h1>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="{%url 'new_scan'%}" method="post">
+        <table>
+            {{ form.as_table }}
+        </table>
+        Scan Profiles: <a href="{%url 'scan_profiles'%}">Profiles</a><br><br>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

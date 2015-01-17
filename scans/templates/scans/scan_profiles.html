@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% if profiles %}
+
+<h1>Scan Profiles:</h1>
+Create a new one: <a href="{%url 'new_scan_profile'%}">New Profile</a>
+<div class="row">
+  <div class="col-md-12" id="profilelist">
+<table id="profiletable" class="table table-bordered">
+<thead class="data-header">
+<tr><th>Profile ID</th><th>Profile Name</th><th>Author</th><th>Command Line</th><th>Action</th></tr></thead>
+    {% for profile in profiles %}
+       <tbody>
+       <tr row-id="{{profile.id}}"><td>{{ profile.id }}</td>
+       <td>{{profile.name}}</td>
+       <td>{{profile.author}}</td>
+       <td>{{profile.cmdline}}</td>
+       <td>
+       {% if user == profile.author or user.is_superuser%}<a href="{%url 'delete_profile' profile.id%}">Delete</a>{%else%}None{%endif%}</td></tr>
+       </tbody>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No profiles are available. Create one <a href="{%url 'new_scan_profile'%}">here</a>!</p>
+{% endif %}
+</div>
+</div>
+{% endblock %}

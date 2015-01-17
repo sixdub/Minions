@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+{%if user.is_superuser%}
+<script type="text/javascript">
+(function refresh(){
+	$.ajax({
+	  url: '{% url 'a_server_output' %}',
+	  success: function(data) {
+	  $('#output').html(data);
+	  }});
+	$.ajax({
+	  url: '{% url 'a_server_log' %}',
+	  success: function(data) {
+	  $('#log').html(data);
+	  }});
+	$.ajax({
+	  url: '{% url 'a_server_jobs' %}',
+	  success: function(data) {
+	  $('#jobs').html(data);
+	  }});
+	$.ajax({
+	  url: '{% url 'a_server_at' %}',
+	  success: function(data) {
+	  $('#at').html(data);
+	  }});
+	setTimeout(refresh, 5000);
+}());
+</script>
+<div class="row">
+  <div class="col-md-12" id="controls" align="center" style="padding-bottom: 10px">
+  <button class="actionbtn" id="outputbtn" type="button" baction="1">Clear Output</button>
+  <button class="actionbtn" id="logbtn" type="button" baction="2">Clear Log</button>
+  <button class="actionbtn" id="jobsbtn" type="button" baction="3">Clear Jobs</button>
+  <button class="actionbtn" id="scansbtn" type="button" baction="4">Clear Scan Data</button>
+  <button class="actionbtn" id="scansbtn" type="button" baction="5">Clear All</button>
+  <button class="actionbtn" id="scansbtn" type="button" baction="6">Start Server</button>
+  <button class="actionbtn" id="scansbtn" type="button" baction="7">Kill Server</button></div>
+</div>
+{%endif%}
+<div class="row">
+  <div class="col-md-12" id="output" align="center">{% include "scans/a_server_output.html"%}</div>
+</div>
+<div class="row">
+  <div class="col-md-12" id="log">{% include "scans/a_log.html"%}</div>
+</div>
+<div class="row">
+  <div class="col-md-6" id="jobs">{% include "scans/a_jobs.html"%}</div>
+  <div class="col-md-6" id="at">{% include "scans/a_at.html"%}</div>
+</div>
+<script type="text/javascript">
+$('.actionbtn').click(function(){
+	actionid=$(this).attr("baction");
+	actionurl = '{% url 'server_action' 1 %}'.replace("1", actionid)
+	$.ajax({
+	  url: actionurl,
+	  success: function(data){
+	 $.ajax({
+	  url: '{% url 'a_server_output' %}',
+	  success: function(data) {
+	  $('#output').html(data);
+	  }});
+	$.ajax({
+	  url: '{% url 'a_server_log' %}',
+	  success: function(data) {
+	  $('#log').html(data);
+	  }});
+	$.ajax({
+	  url: '{% url 'a_server_jobs' %}',
+	  success: function(data) {
+	  $('#jobs').html(data);
+	  }}); 	
+	$.ajax({
+	  url: '{% url 'a_server_at' %}',
+	  success: function(data) {
+	  $('#at').html(data);
+	  }});
+	  //alert(data);
+	}});
+});
+</script>
+{% endblock %}

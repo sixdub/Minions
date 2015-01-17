@@ -1,0 +1,37 @@
+{% if scan_list %}
+
+<h1>Scans:</h1>
+<ul class="pager">
+{% if scan_list.has_previous %}
+  <li><a id="previous_link" >Previous</a></li>
+  {%else%}
+    <li>Previous</li>
+ {%endif%}
+ <li> | Current Page: {{scan_list.number}} of {{scan_list.paginator.num_pages}} | </li>
+ {% if scan_list.has_next %}
+  <li><a id="next_link">Next</a></li>
+  {%else%}
+  <li>Next</li>
+ {%endif%}
+</ul>
+<table id="scantable" class="table table-bordered table-hover">
+<thead class="data-header">
+<tr><th>Scan ID</th><th>Scan Name</th><th>User</th><th>Hosts</th><th>Profile</th><th>Finished</th</tr></thead>
+    {% for scan in scan_list %}
+       <tbody>
+       <tr row-id="{{scan.id}}"><td><a href="{% url 'scan_detail' scan.id%}">{{ scan.id }}</a></td>
+       <td>{{scan.name}}</td>
+       <td>{{scan.user.username}}</td>
+       <td>{{scan.hosts}}</td>
+       <td>{{scan.profile}}</td>
+       <td>{{scan.finished}}</td></tr>
+       </tbody>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No scans are available.</p>
+{% endif %}
+<script type="text/javascript">
+$('#next_link').click(function(){scanlistpage++;refresh();});
+$('#previous_link').click(function(){scanlistpage--;refresh();});
+$('.table-hover tbody tr').click(function(){rowid=$(this).attr("row-id");var url= '{%url 'scan_detail' 1%}';url=url.replace('1', rowid); document.location.href=url;});</script>

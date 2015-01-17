@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+{% if scans %}
+<h1>{{scans.name}}</h1>
+<b>Author:</b> {{scans.user}}<br>
+<b>Profile:</b> {{scans.profile.name}}<br>
+<b>Hosts:</b> {{scans.hosts}}<br>
+<b>Command Line:</b> {{cmd}}<br>
+{%if scans.summary%}
+<b>Summary:</b> {{scans.summary}}<br>
+{%endif%}
+{%if user == scans.user or user.is_superuser%}
+<a href="{%url 'scan_delete' scans.id%}">Delete This Scan</a><br>
+{%endif%}
+{%if scans.finished%}
+<a href="{% url 'scan_download' scans.id%}"> Download Zip</a><br>
+{%endif%}
+<pre>{%if data%}{{data}}{%else%}No output available...{%endif%}</pre>
+{% else %}
+    <p>No scans are available.</p>
+{% endif %}
+{% endblock %}
