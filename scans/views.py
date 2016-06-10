@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from django.core.servers.basehttp import FileWrapper
+from wsgiref.util import FileWrapper
 from django.core.files import File
 from scans.models import Scan, Scan_Profile
 from scans.forms import ScanForm, ScanProfileForm
